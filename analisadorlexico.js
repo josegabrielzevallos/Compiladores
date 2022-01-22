@@ -312,15 +312,70 @@ function finalTokens() {
             i += jump;
         }
 
-        else if (temp == "{" || temp=="*") {
-                temp += tokens[i].Token;
-            while(temp =="}" || temp=="*"){
-                temp += tokens[i].Token;
+        else if (temp == "{" ) {
+            while(tokens[i].Token !="}" ){
+                i++
             }
             
             //console.log("detect-> BEGIN and linea = " + linea);
             temp = "";
-            add("{ / *", "SEPARADOR", "{ / *");
+            add("{}", "SEPARADOR", "{}");
+        }
+
+        else if (temp == "'" ) {
+            i=i+1;
+            while(tokens[i].Token !="'" && tokens[i+1].Token != "'"  ){
+                i++;
+            }
+            i=i+1;
+            //console.log("detect-> BEGIN and linea = " + linea);
+            temp = "";
+            add("''", "STRING", "''");
+        }
+
+        else if (temp == "(" && tokens[i+1].Token=="*") {
+            i=i+2;
+            console.log(tokens[i].Token);
+            
+            while(tokens[i].Token !=")"  ){ 
+
+                console.log(tokens[i].Token);
+                i++;
+            }
+
+            console.log(tokens[i].Token);
+            
+            
+
+            console.log(tokens[i].Token);
+            //console.log("detect-> BEGIN and linea = " + linea);
+            temp = "";
+            add("(**)", "SEPARADOR", "(**)");
+        }
+
+        else if (tokens[i].Token == ":" && tokens[i+1].Token == "=") {
+            
+            if(temp.search("}")){
+                var vari = temp.substring(temp.search("}")+1,i);
+            } else{
+                var vari = temp.substring(0,i);
+            }
+        
+            //console.log("detect->  "+vari);
+            temp = "";
+            add(vari, "VAR", "y");
+            var secuense = "";
+            var variable = "";
+            var j = i + 1;
+            while (secuense != ";") {
+            secuense = tokens[j].Token;
+                variable += secuense;
+                j++;
+            }
+            //console.log("arg -> " + variable.substring(1, variable.length - 1));
+            add(variable.substring(1, variable.length - 1), "arg", "v");
+            var jump = variable.substring(0, variable.length - 1).length;
+            i += jump;
         }
 
 
@@ -638,7 +693,7 @@ function finalTokens() {
             add("-", "OP_RES", "-");
 
         }
-        else if (temp == "*" ) {
+        else if (temp == "*" && tokens[i+1].Token != "*") {
             //console.log("detect-> ==");
 
 

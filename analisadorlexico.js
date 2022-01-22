@@ -812,11 +812,5 @@ function ListToken() {
     }
     //print("SourceCode->: " + traducerCode);
     var text = traducerCode;
-    //document.getElementById('plane').innerHTML = FinalInput;
-    //document.getElementById('plane2').innerHTML = FinalInput;
-   // document.getElementById('msg').innerHTML = text;
-    //console.log("[[[[[[[  "+text+" ]]]]]]]]]");
-    //console.log(startUp(grammar, text));
-    //traducerCode = "";
-    //console.log("FINALINPUT-> ", FinalInput);
+    
 }

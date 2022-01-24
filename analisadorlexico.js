@@ -322,6 +322,17 @@ function finalTokens() {
             add("{}", "SEPARADOR", "{}");
         }
 
+///////////////////////////////////////////////////////////////////////////////////
+        else if (tipo_token(i)== "digit" ) {
+            while(tokens[i].Token !="}" ){
+                i++
+            }
+            
+            //console.log("detect-> BEGIN and linea = " + linea);
+            temp = "";
+            add("{}", "SEPARADOR", "{}");
+        }
+////////////////////////////////////////////////////////////////////////////////////
         else if (temp == "'" ) {
             i=i+1;
             while(tokens[i].Token !="'" && tokens[i+1].Token != "'"  ){
@@ -367,12 +378,13 @@ function finalTokens() {
             var secuense = "";
             var variable = "";
             var j = i + 1;
-            while (secuense != ";") {
+            /*while (secuense != ";") {
             secuense = tokens[j].Token;
                 variable += secuense;
                 j++;
-            }
-            //console.log("arg -> " + variable.substring(1, variable.length - 1));
+            }*/
+            console.log("arg -> " + variable.substring(1, variable.length - 1));
+            
             add(variable.substring(1, variable.length - 1), "arg", "v");
             var jump = variable.substring(0, variable.length - 1).length;
             i += jump;

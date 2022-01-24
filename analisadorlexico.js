@@ -383,7 +383,7 @@ function finalTokens() {
                 variable += secuense;
                 j++;
             }*/
-            console.log("arg -> " + variable.substring(1, variable.length - 1));
+            //console.log("arg -> " + variable.substring(1, variable.length - 1));
             
             add(variable.substring(1, variable.length - 1), "arg", "v");
             var jump = variable.substring(0, variable.length - 1).length;

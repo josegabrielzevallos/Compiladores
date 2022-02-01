@@ -10,6 +10,55 @@ EOF.Type = "EOF";
 var START_SYMBOL = 'S';
 
 
+var grammar = {
+    1: 'S->A',
+    2: 'A->i;CVM',
+    3: 'M->bSE',
+    4: 'C->nL',
+    5: 'C->e',
+    6: 'L->i=v;L',
+    7: 'L->e',
+    8: 'v->d/r',
+    9: 'v->s',
+    10: 'V->al',
+    11: 'V->e',
+    12: 'l->D:T;l',
+    13: 'l->e,',
+    14: 'D->i',
+    15: 'D->i,D',
+    16: 'T->R',
+    17: 'T->I',
+    18: 'T->G',
+    19: '->',
+    20: '->',
+    21: '->',
+    22: '->',
+    23: '->',
+    24: '->',
+    25: '->',
+    26: '->',
+    27: '->',
+    28: '->',
+    29: '->',
+    30: '->',
+    31: '->',
+    32: '->',
+    33: '->',
+    34: '->',
+    35: '->',
+    36: '->',
+    37: '->',
+    38: '->',
+    39: '->',
+    40: '->',
+    41: '->',
+    42: '->',
+    43: '->',
+    44: '->',
+    45: '->',
+    46: '->',
+    47: '->',
+}
 
 
 
@@ -28,6 +77,7 @@ function init() {
     //print(lex());
     tokens = tokenSorter();
     ListToken();
+
     //------parser--program
 
 }
@@ -321,16 +371,18 @@ function finalTokens() {
             temp = "";
             add("{}", "SEPARADOR", "{}");
         }
+///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////
         else if (tipo_token(i)== "digit" ) {
-            while(tokens[i].Token !="}" ){
+           /* while(tipo_token(i)!= "digit" ){
                 i++
-            }
+                console.log("entro")
+            }*/
             
             //console.log("detect-> BEGIN and linea = " + linea);
             temp = "";
-            add("{}", "SEPARADOR", "{}");
+            add("num", "digit", "digit");
         }
 ////////////////////////////////////////////////////////////////////////////////////
         else if (temp == "'" ) {
@@ -364,7 +416,7 @@ function finalTokens() {
             add("(**)", "SEPARADOR", "(**)");
         }
 
-        else if (tokens[i].Token == ":" && tokens[i+1].Token == "=") {
+       /* else if (tokens[i].Token == ":" && tokens[i+1].Token == "=") {
             
             if(temp.search("}")){
                 var vari = temp.substring(temp.search("}")+1,i);
@@ -373,22 +425,22 @@ function finalTokens() {
             }
         
             //console.log("detect->  "+vari);
-            temp = "";
-            add(vari, "VAR", "y");
-            var secuense = "";
-            var variable = "";
-            var j = i + 1;
+            //temp = "";
+            //add(vari, "VAR", "y");
+            //var secuense = "";
+            //var variable = "";
+            //var j = i + 1;
             /*while (secuense != ";") {
             secuense = tokens[j].Token;
                 variable += secuense;
                 j++;
-            }*/
+            }
             //console.log("arg -> " + variable.substring(1, variable.length - 1));
             
             add(variable.substring(1, variable.length - 1), "arg", "v");
             var jump = variable.substring(0, variable.length - 1).length;
             i += jump;
-        }
+        }*/
 
 
 
@@ -408,7 +460,7 @@ function finalTokens() {
 
             //console.log("detect-> fordware");
             temp = "";
-            add("downto", "DOWNTO", "dw");
+            add("downto", "DOWNTO", "d");
         }
         /*****************************/
         else if (temp == "function") {
@@ -784,7 +836,7 @@ function finalTokens() {
          else if (temp == "and") {
             //console.log("detect-> ==");
             temp = "";
-            add("and", "OP_AND", "and");
+            add("and", "OP_AND", "a");
 
         }  
 
@@ -798,28 +850,28 @@ function finalTokens() {
          else if (temp == "not") {
             //console.log("detect-> ==");
             temp = "";
-            add("not", "OP_NOT", "not");
+            add("not", "OP_NOT", "n");
 
         }  
 
          else if (temp == "div") {
             //console.log("detect-> ==");
             temp = "";
-            add("div", "OP_DIV", "div");
+            add("div", "OP_DIV", "d");
 
         }  
 
          else if (temp == "mod") {
             //console.log("detect-> ==");
             temp = "";
-            add("mod", "OP_MOD", "mod");
+            add("mod", "OP_MOD", "m");
 
         }  
 
          else if (temp == "in") {
             //console.log("detect-> ==");
             temp = "";
-            add("in", "OP_IN", "in");
+            add("in", "OP_IN", "i");
 
         }  
 
@@ -865,6 +917,7 @@ al ejecuta el programa
 function ListToken() {
   var FinalInput = "";
     //print("\n ListToken\n");
+    //console.log("ListToken");
     ToKens = new Array();
     ToKens = finalTokens();
     var compiler = "";
@@ -872,12 +925,408 @@ function ListToken() {
 
 
     for (var i = 0; i < ToKens.length; i++) {
-        console.log(i + " -> " + ToKens[i].Token + " -> " + ToKens[i].Type);
+        console.log(i + " -> " + ToKens[i].Token + " -> " + ToKens[i].Type );
+        
         //console.log(i + "t " + token_traducer[i].Token + " -> " + token_traducer[i].Type);
         //print(i + " " + ToKens[i].Token + " -> " + ToKens[i].Type);
         //traducerCode += token_traducer[i].Token;
     }
+
+     for (var m = 0; m < ToKens.length; m++) {traducerCode += token_traducer[m].Token;}
     //print("SourceCode->: " + traducerCode);
-    var text = traducerCode;
     
+    var text = traducerCode;
+    console.log(text);
+
+    startUp(grammar, text);
+    traducerCode = "";
+}
+
+/****************************************************
+ *******************  my_tree ************************
+ *****************************************************/
+
+
+
+
+function Node(data) {
+    this.data = data;
+    this.children = [];
+}
+
+class Tree {
+    constructor() {
+        this.root = null;
+    }
+
+    add(data, toNodeData) {
+        const node = new Node(data);
+        const parent = toNodeData ? this.findBFS(toNodeData) : null;
+        if (parent) {
+            parent.children.push(node)
+        } else {
+            if (!this.root)
+                this.root = node;
+            else
+                return "nodo existe"
+        }
+    }
+
+    findBFS(data) {
+        const queue = [this.root];
+        let _node = null;
+        this.traverseBFS((node) => {
+            if (node.data === data) {
+                _node = node;
+            }
+        })
+
+        return _node;
+    }
+
+    traverseBFS(cb) {
+        const queue = [this.root];
+
+        if (cb)
+            while (queue.length) {
+                const node = queue.shift();
+                cb(node)
+                for (const child of node.children) {
+                    queue.push(child);
+                }
+            }
+    }
+
+    _preOrder(node, fn) {
+        if (node) {
+            if (fn) {
+                fn(node);
+            }
+            for (let i = 0; i < node.children.length; i++) {
+                this._preOrder(node.children[i], fn);
+            }
+        }
+    }
+    traverseDFS(fn, method) {
+        const current = this.root;
+        if (method) {
+            this[`_${method}`](current, fn);
+        } else {
+            this._preOrder(current, fn);
+        }
+    }
+
+
+
+}
+let tree = new Tree()
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+/****************************************************
+ **************      PARSER    *******************
+ *****************************************************/
+
+//INCLUDE a LEXER
+//import{hello} from "./lexer.js";
+
+//const Table = require('cli-table');
+var EPSILON = "ε";
+
+var firstSets = {};
+var followSets = {};
+var terminals = [];
+var nonTerminals = [];
+
+
+function buildFirstSets(grammar) {
+    firstSets = {};
+    buildSet(firstOf);
+}
+
+function firstOf(symbol) {
+
+    if (firstSets[symbol]) {
+        return firstSets[symbol];
+    }
+
+    var first = firstSets[symbol] = {};
+    if (isTerminal(symbol)) {
+        first[symbol] = true;
+        return firstSets[symbol];
+    }
+
+    var productionsForSymbol = getProductionsForSymbol(symbol);
+    for (var k in productionsForSymbol) {
+        var production = getRHS(productionsForSymbol[k]);
+
+        for (var i = 0; i < production.length; i++) {
+            var productionSymbol = production[i];
+            if (productionSymbol === EPSILON) {
+                first[EPSILON] = true;
+                break;
+            }
+
+            var firstOfNonTerminal = firstOf(productionSymbol);
+
+            if (!firstOfNonTerminal[EPSILON]) {
+                merge(first, firstOfNonTerminal);
+                break;
+            }
+            merge(first, firstOfNonTerminal, [EPSILON]);
+        }
+    }
+    return first;
+}
+
+function getProductionsForSymbol(symbol) {
+    var productionsForSymbol = {};
+    for (var k in grammar) {
+        if (grammar[k][0] === symbol) {
+            productionsForSymbol[k] = grammar[k];
+        }
+    }
+    return productionsForSymbol;
+}
+
+function getLHS(production) {
+    return production.split('->')[0].replace(/\s+/g, '');
+}
+
+function getRHS(production) {
+    return production.split('->')[1].replace(/\s+/g, '');
+}
+
+function buildFollowSets(grammar) {
+    followSets = {};
+    buildSet(followOf);
+}
+
+function followOf(symbol) {
+    if (followSets[symbol]) {
+        return followSets[symbol];
+    }
+    var follow = followSets[symbol] = {};
+
+    if (symbol === START_SYMBOL) {
+        follow['$'] = true;
+    }
+
+    var productionsWithSymbol = getProductionsWithSymbol(symbol);
+    for (var k in productionsWithSymbol) {
+        var production = productionsWithSymbol[k];
+        var RHS = getRHS(production);
+
+        var symbolIndex = RHS.indexOf(symbol);
+        var followIndex = symbolIndex + 1;
+
+        while (true) {
+
+            if (followIndex === RHS.length) { // "$"
+                var LHS = getLHS(production);
+                if (LHS !== symbol) { // To avoid cases like: B -> aB
+                    merge(follow, followOf(LHS));
+                }
+                break;
+            }
+
+            var followSymbol = RHS[followIndex];
+
+            var firstOfFollow = firstOf(followSymbol);
+
+            if (!firstOfFollow[EPSILON]) {
+                merge(follow, firstOfFollow);
+                break;
+            }
+
+            merge(follow, firstOfFollow, [EPSILON]);
+            followIndex++;
+        }
+    }
+
+    return follow;
+}
+
+function buildSet(builder) {
+    for (var k in grammar) {
+        builder(grammar[k][0]);
+    }
+}
+
+function getProductionsWithSymbol(symbol) {
+    var productionsWithSymbol = {};
+    for (var k in grammar) {
+        var production = grammar[k];
+        var RHS = getRHS(production);
+        if (RHS.indexOf(symbol) !== -1) {
+            productionsWithSymbol[k] = production;
+        }
+    }
+    return productionsWithSymbol;
+}
+
+function isTerminal(symbol) {
+    return !/[A-Z]/.test(symbol);
+}
+
+function merge(to, from, exclude) {
+    exclude || (exclude = []);
+    for (var k in from) {
+        if (exclude.indexOf(k) === -1) {
+            to[k] = from[k];
+        }
+    }
+}
+
+function printGrammar(grammar) {
+    console.log('Gramatica:\n');
+    //print('Gramatica:\n');
+    for (var k in grammar) {
+        console.log('  ', grammar[k]);
+        //print(" " + grammar[k]);
+    }
+    console.log('');
+    //print(" ");
+}
+
+function printSet(name, set) {
+    console.log(name + ': \n');
+    //print(name + ": \n");
+    for (var k in set) {
+        console.log('  ', k, ':', Object.keys(set[k]));
+        //print(" " + k + ":" + Object.keys(set[k]));
+    }
+    console.log('');
+    //print('');
+}
+
+
+
+
+
+var parserTable;
+
+/*************************************
+ *           PRINT-->ELEMTS
+ ***********************************/
+function startUp(grammar, text) {
+    //printGrammar(grammar);
+    buildFirstSets(grammar);
+    buildFollowSets(grammar);
+    //printSet('Conjunto Primeros', firstSets);
+    //printSet('Conjunto Segundos', followSets);
+    buildNonTerminals(grammar);
+    buildTerminals(grammar);
+    parserTable = buildParserTable(grammar);
+    return solve(text);
+    //tree.traverseBFS((node) => { console.log(node) })
+
+}
+
+function buildNonTerminals(grammar) {
+    for (var k in grammar) {
+        let temp = getLHS(grammar[k]);
+        if (nonTerminals.indexOf(temp) == -1) {
+            nonTerminals.push(temp);
+        }
+    }
+    //console.log("No Terminales: " + nonTerminals);
+}
+
+function buildTerminals(grammar) {
+    for (var k in grammar) {
+        let temp = getRHS(grammar[k]);
+        for (var i = 0; i < temp.length; i++) {
+            if (nonTerminals.indexOf(temp[i]) == -1 && terminals.indexOf(temp[i]) == -1) {
+                terminals.push(temp[i]);
+            }
+        }
+    }
+    //console.log("Terminales: " + terminals);
+}
+
+function buildParserTable(grammar) {
+    let ptable = {};
+
+    for (var k in grammar) {
+        var itRHS = getRHS(grammar[k]);
+        var itLHS = getLHS(grammar[k]);
+        if (itRHS != EPSILON) {
+            let tempTerminals = firstSets[itRHS[0]];
+            for (termTemp in tempTerminals) {
+                ptable[itLHS] = ptable[itLHS] || {};
+                ptable[itLHS][termTemp] = k;
+            }
+        } else {
+            let tempTerminals = followSets[itLHS];
+            for (termTemp in tempTerminals) {
+                ptable[itLHS] = ptable[itLHS] || {};
+                ptable[itLHS][termTemp] = k;
+            }
+        }
+    }
+    return ptable;
+}
+
+function solve(input) {
+    let log = [],
+        reg = 0;
+    let consumedInput = "",
+        remainInput = input + "$";
+    let stack = ['$'];
+    let action = "nothing!";
+    stack.push(START_SYMBOL);
+
+    var root = stack[stack.length - 1];
+    //console.log("INICIAL-->" + root);
+    tree.add(root);
+    do {
+        let top = stack[stack.length - 1];
+        if (stack.length == 1 && remainInput == "$")
+            action = "Accept!";
+
+        else if (isTerminal(top) && action != EPSILON) {
+            action = "Matched!";
+            stack.pop();
+            consumedInput += remainInput.slice(0, 1);
+            remainInput = remainInput.slice(1);
+        } else if (top == EPSILON)
+            stack.pop();
+        else {
+            let num = parserTable[top][remainInput[0]];
+            if (!num) {
+                stack.pop();
+                reg = 1;
+            } else {
+                action = getRHS(grammar[num]);
+                if (top != remainInput[0]) {
+                    stack.pop();
+                    action.split('').reverse().map((t) => { stack.push(t) });
+                    //_______________________TREE:_______________________
+                    //console.log("stack: ", stack);
+                    //console.log("Action: " + action + " size: " + action.length + " <--- Top: " + top);
+                    for (var i = 0; i < action.length; i++) {
+                        tree.add(action[i], top);
+                        //console.log("FOR: " + action[i] + " <--- Top: " + top);
+                    }
+                }
+            }
+        }
+        if (action == "Accept!") {
+            //print("GRÁMATICA ACEPTADA");
+            console.log("Gramatica Aceptada")
+            return true;
+            break;
+        }
+    } while (stack.length > 0);
+    console.log((reg) ? "Ans: Tiene algunos errores" : "Ans: Accept!");
+    //print((reg) ? "Ans: Tiene algunos errores" : "Ans: Accept!");
+    /*console.log("-----------BFS---------");
+  tree.traverseBFS(node => { console.log(node.data); });
+  console.log("-----------DFS----------");
+  tree.traverseDFS(node => { console.log(node.data); });
+*/
 }

@@ -10,7 +10,7 @@ EOF.Type = "EOF";
 var START_SYMBOL = 'S';
 
 
-var grammar = {
+/*var grammar = {
     1: 'S->A',
     2: 'A->i;CVM',
     3: 'M->bSE',
@@ -58,7 +58,8 @@ var grammar = {
     45: '->',
     46: '->',
     47: '->',
-}
+}*/
+
 
 
 
@@ -410,7 +411,7 @@ function finalTokens() {
             i=i+1;
             //console.log("detect-> BEGIN and linea = " + linea);
             temp = "";
-            add("''", "STRING", "''");
+            add("''", "STRING", "'");
         }
 
         else if (temp == "(" && tokens[i+1].Token=="*") {
@@ -480,12 +481,21 @@ function finalTokens() {
             add("downto", "DOWNTO", "d");
         }
         /*****************************/
+        else if (temp == "Hello") {
+
+          
+
+            //console.log("detect-> fordware");
+            temp = "";
+            add("c", "Variable  ", "c");
+        }
+        /*****************************/
         else if (temp == "function") {
             //console.log("detect-> 90");
             temp = "";
             add("function", "FUNCTION", "f");
         }
-        /*****************************/
+6        /*****************************/
         else if (temp == "of") {
             //console.log("detect-> -90");
             temp = "";
@@ -809,6 +819,7 @@ function finalTokens() {
             add("=", "OP_IGUAL", "=");
 
         } 
+
 
         else if (temp == "<>") {
             //console.log("detect-> ==");
@@ -1225,6 +1236,9 @@ function printSet(name, set) {
 
 
 var parserTable;
+
+
+var Text="pc;bw(');e."
 
 /*************************************
  *           PRINT-->ELEMTS

@@ -238,10 +238,10 @@ La funcion init es la funcion principal que interactú con todos los demas
 */
 function init() {
     //print("..........start-traducir..........");
-    //print(lex());
-   // tokens = tokenSorter();
+    //pradd(lex());
+    tokens = tokenSorter();
     ListToken();
-
+    translate(tokens)
     //------parser--program
 
 }
@@ -638,6 +638,13 @@ function finalTokens() {
 
 
         else if (temp == "age") {
+            
+            //console.log("detect-> BEGIN and linea = " + linea);
+            temp = "";
+            add("variable", "variable", "v");
+        }
+
+        else if (temp == "Mayor") {
             
             //console.log("detect-> BEGIN and linea = " + linea);
             temp = "";
@@ -1145,7 +1152,7 @@ al ejecuta el programa
  * 
  * *********************/
 function ListToken() {
- /* var FinalInput = "";
+  var FinalInput = "";
     //print("\n ListToken\n");
     //console.log("ListToken");
     ToKens = new Array();
@@ -1166,10 +1173,10 @@ function ListToken() {
     //print("SourceCode->: " + traducerCode);
     
     //var text = traducerCode;
-    var text = o(i:n){l(n);};
+    var text = "o(i:n){l(n)}";
 
      
-    console.log(text);*/
+    console.log(text);
 
     var text = "l(n);";
     startUp(grammar, text);
@@ -1456,7 +1463,7 @@ function startUp(grammar, text) {
     buildTerminals(grammar);
     parserTable = buildParserTable(grammar);
     return solve(text);
-    //tree.traverseBFS((node) => { console.log(node) })
+    tree.traverseBFS((node) => { console.log(node) })
 
 }
 
@@ -1551,7 +1558,7 @@ function solve(input) {
         }
         if (action == "Accept!") {
             //print("GRÁMATICA ACEPTADA");
-            console.log("Gramatica Aceptada")
+            //console.log("Gramatica Aceptada")///////////////////////////////<=====
             return true;
             break;
         }
@@ -1564,3 +1571,55 @@ function solve(input) {
   tree.traverseDFS(node => { console.log(node.data); });
 
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function translate(text){
+    var temp = "";
+    //var temp2 ="";
+
+    var i = 0;
+    var j=0;
+
+    while (temp != "END" && tokens[i]) {
+        //BEGverEND();
+        temp += text[i].Token;
+
+        if(temp == "Write('"){
+            i=i+1;
+            console.log(tokens[i].Token);
+            while(tokens[i].Token!= "'"){
+
+               // temp2[j]=tokens[i].Token;
+                console.log(tokens[i].Token);
+                i++;
+                j++;
+            }
+
+            temp = "";
+        }
+        else if(temp == "program"){
+
+            temp="";
+        }
+         else if(temp == "Mayor"){
+            temp="";
+        }
+        else if(temp == ")"){
+            temp="";
+        }
+        else if(temp == ";"){
+            temp="";
+        }
+        else if(temp == "'"){
+            temp="";
+        }
+
+    //console.log(tokens[i].Token);
+    i++;
+    }
+}
+
+
+
